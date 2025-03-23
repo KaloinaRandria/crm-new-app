@@ -30,4 +30,14 @@ public class LeadModel
         }
         return leads;
     }
+
+    public double GetMontantDepense(List<LeadModel> leadsModels)
+    {
+        double totalLeads = 0;
+        foreach (var item in leadsModels)
+        {
+            totalLeads += item.MontantDepense;
+        }
+        return totalLeads;
+    }
 }

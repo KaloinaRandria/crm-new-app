@@ -29,4 +29,14 @@ public class BudgetModel
         }
         return toReturn;
     }
+
+    public double getTotalMontant(List<BudgetModel> budgetModels)
+    {
+        double total = 0;
+        foreach (var item in budgetModels)
+        {
+            total += item.Montant;
+        }
+        return total;
+    }
 }

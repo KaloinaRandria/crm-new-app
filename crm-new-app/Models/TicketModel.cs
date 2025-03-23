@@ -31,5 +31,15 @@ public class TicketModel
         }
         return toReturn;
     }
+
+    public double getTotalTicketMontant(List<TicketModel> ticketModels)
+    {
+        double totalTicket = 0;
+        foreach (var item in ticketModels)
+        {
+            totalTicket += item.MontantDepense;
+        }
+        return totalTicket;
+    }
     
 }
