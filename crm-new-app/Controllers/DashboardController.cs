@@ -25,15 +25,30 @@ public class DashboardController : Controller
             string currentDateTime = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss");
 
             // Construire l'URL avec la date du jour
-            string apiUrl = $"api/budget/all?dateTime={currentDateTime}";
 
-            var response = await _httpClient.GetAsync(apiUrl);
-            if (response.IsSuccessStatusCode)
+            //budget
+            string apiBudget = $"api/budget/all?dateTime={currentDateTime}";
+
+            var responseBudget = await _httpClient.GetAsync(apiBudget);
+            if (responseBudget.IsSuccessStatusCode)
             {
-                var data = await response.Content.ReadAsStringAsync();
+                var data = await responseBudget.Content.ReadAsStringAsync();
                 var budgets = new BudgetModel().GetAllBudgetModels(data); 
                 ViewData["budgets"] = budgets;
             }
+            
+            
+            
+            //ticket
+            string apiTicket = $"api/ticket/all?dateTime={currentDateTime}";
+
+            var responseTicket = await _httpClient.GetAsync(apiTicket);
+            if (responseTicket.IsSuccessStatusCode)
+            {
+                var data = await responseTicket.Content.ReadAsStringAsync();
+                var tickets = new TicketModel().getALlTicketModels(data); 
+                ViewData["tickets"] = tickets;
+            } 
         }
         catch (Exception e)
         {

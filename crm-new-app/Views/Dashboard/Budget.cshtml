@@ -1,26 +1,80 @@
 ﻿@{
     
     var budgets = ViewData["budgets"] as List<BudgetModel>;
+    var tickets = ViewData["tickets"] as List<TicketModel>;
 }
 
-<table class="table table-bordered">
-    <thead class="table-dark">
-    <tr>
-        <th>ID</th>
-        <th>Client</th>
-        <th>Montant (€)</th>
-        <th>Date</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var budget in budgets)
-    {
+<h2>Liste des Budgets</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@if (budgets != null && budgets.Count > 0)
+{
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
         <tr>
-            <td>@budget.IdBudgetModel</td>
-            <td>@budget.CustomerName</td>
-            <td>@budget.Montant.ToString("N2") €</td>
-            <td>@budget.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+            <th>ID</th>
+            <th>Client</th>
+            <th>Montant (€)</th>
+            <th>Date</th>
         </tr>
-    }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        @foreach (var budget in budgets)
+        {
+            <tr>
+                <td>@budget.IdBudgetModel</td>
+                <td>@budget.CustomerName</td>
+                <td>@budget.Montant.ToString("N2") €</td>
+                <td>@budget.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Aucun budget trouvé.</p>
+}
+
+
+<h2>Liste des Tickets</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@if (tickets != null && tickets.Count > 0)
+{
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Client</th>
+            <th>Montant (€)</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var ticket in tickets)
+        {
+            <tr>
+                <td>@ticket.IdTicket</td>
+                <td>@ticket.CustomerName</td>
+                <td>@ticket.MontantDepense.ToString("N2") €</td>
+                <td>@ticket.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Aucun ticket trouvé.</p>
+}
