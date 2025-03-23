@@ -48,7 +48,19 @@ public class DashboardController : Controller
                 var data = await responseTicket.Content.ReadAsStringAsync();
                 var tickets = new TicketModel().getALlTicketModels(data); 
                 ViewData["tickets"] = tickets;
-            } 
+            }
+            
+            
+            //Lead
+            string apiLead = $"api/lead/all?dateTime={currentDateTime}";
+            
+            var responseLead = await _httpClient.GetAsync(apiLead);
+            if (responseLead.IsSuccessStatusCode)
+            {
+                var data = await responseLead.Content.ReadAsStringAsync();
+                var leads = new LeadModel().getAllLeadsModels(data);
+                ViewData["leads"] = leads;
+            }
         }
         catch (Exception e)
         {

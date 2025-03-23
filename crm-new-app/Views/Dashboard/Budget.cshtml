@@ -2,6 +2,7 @@
     
     var budgets = ViewData["budgets"] as List<BudgetModel>;
     var tickets = ViewData["tickets"] as List<TicketModel>;
+    var leads = ViewData["leads"] as List<LeadModel>;
 }
 
 <h2>Liste des Budgets</h2>
@@ -56,6 +57,7 @@ else
         <thead class="table-dark">
         <tr>
             <th>ID</th>
+            <th>Subject</th>
             <th>Client</th>
             <th>Montant (€)</th>
             <th>Date</th>
@@ -66,6 +68,7 @@ else
         {
             <tr>
                 <td>@ticket.IdTicket</td>
+                <td>@ticket.Subject</td>
                 <td>@ticket.CustomerName</td>
                 <td>@ticket.MontantDepense.ToString("N2") €</td>
                 <td>@ticket.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
@@ -77,4 +80,43 @@ else
 else
 {
     <p>Aucun ticket trouvé.</p>
+}
+
+<h2>Liste des Leads</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@if (leads != null && leads.Count > 0)
+{
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Lead Name</th>
+            <th>Client</th>
+            <th>Montant (€)</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var lead in leads)
+        {
+            <tr>
+                <td>@lead.IdLead</td>
+                <td>@lead.LeadName</td>
+                <td>@lead.CustomerName</td>
+                <td>@lead.MontantDepense.ToString("N2") €</td>
+                <td>@lead.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Aucun lead trouvé.</p>
 }
