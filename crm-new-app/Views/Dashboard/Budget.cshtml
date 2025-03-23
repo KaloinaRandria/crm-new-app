@@ -1,0 +1,26 @@
+﻿@{
+    
+    var budgets = ViewData["budgets"] as List<BudgetModel>;
+}
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+    <tr>
+        <th>ID</th>
+        <th>Client</th>
+        <th>Montant (€)</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var budget in budgets)
+    {
+        <tr>
+            <td>@budget.IdBudgetModel</td>
+            <td>@budget.CustomerName</td>
+            <td>@budget.Montant.ToString("N2") €</td>
+            <td>@budget.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+        </tr>
+    }
+    </tbody>
+</table>

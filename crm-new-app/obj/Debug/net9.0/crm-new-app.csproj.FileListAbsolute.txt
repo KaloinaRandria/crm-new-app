@@ -95,3 +95,4 @@ E:\dev (ITUniversity)\L3\S6\EVALUATION\crm-new-app\crm-new-app\obj\Debug\net9.0\
 E:\dev (ITUniversity)\L3\S6\EVALUATION\crm-new-app\crm-new-app\obj\Debug\net9.0\crm-new-app.pdb
 E:\dev (ITUniversity)\L3\S6\EVALUATION\crm-new-app\crm-new-app\obj\Debug\net9.0\crm-new-app.genruntimeconfig.cache
 E:\dev (ITUniversity)\L3\S6\EVALUATION\crm-new-app\crm-new-app\obj\Debug\net9.0\ref\crm-new-app.dll
+E:\dev (ITUniversity)\L3\S6\EVALUATION\crm-new-app\crm-new-app\obj\Debug\net9.0\crm-new-app.sourcelink.json
