@@ -8,6 +8,7 @@ public class BudgetModel
     public string CustomerName { get; set; }
     public double Montant { get; set; }
     public DateTime DateTime { get; set; }
+    public int IdCustomer { get; set; }
 
     public List<BudgetModel> GetAllBudgetModels(string data)
     {
@@ -23,11 +24,31 @@ public class BudgetModel
                     CustomerName = item.GetProperty("customerName").GetString(),
                     Montant = item.GetProperty("montant").GetDouble(),
                     DateTime = item.GetProperty("dateTime").GetDateTime(),
+                    IdCustomer = item.GetProperty("idCustomer").GetInt32(),
                 };
                 toReturn.Add(budgetModel);
             }
         }
         return toReturn;
+    }
+
+    public Dictionary<int, double> budgetByIdCustomer(List<BudgetModel> budgetModels)
+    {
+        var budgetDict = new Dictionary<int, double>();
+
+        foreach (var budget in budgetModels)
+        {
+            if (budgetDict.ContainsKey(budget.IdCustomer))
+            {
+                budgetDict[budget.IdCustomer] += budget.Montant;
+            }
+            else
+            {
+                budgetDict[budget.IdCustomer] = budget.Montant;
+            }
+        }
+        
+        return budgetDict.Take(3).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);       
     }
 
     public double getTotalMontant(List<BudgetModel> budgetModels)

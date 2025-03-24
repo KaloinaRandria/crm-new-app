@@ -2,6 +2,7 @@
     var budgets = ViewData["budgets"] as List<BudgetModel>;
     var tickets = ViewData["tickets"] as List<TicketModel>;
     var leads = ViewData["leads"] as List<LeadModel>;
+    var budgetByCust = ViewData["budgetByCust"] as Dictionary<int , double>;
 
     var totalBudget = ViewData["TotalBudget"];
     var totalTicket = ViewData["TotalTicket"];
@@ -10,6 +11,8 @@
 }
 
 <h1 class="text-center mb-4">Tableau de Bord</h1>
+
+
 
 <div class="row">
     <div class="col-lg-6 mt-3 mb-4">
@@ -55,33 +58,43 @@
                 <canvas id="doughnutChart" style="max-height: 400px;"></canvas>
                 <script>
                     document.addEventListener("DOMContentLoaded", () => {
+                        // Récupérer les données depuis ViewData en JSON
+                        var budgetData = @Html.Raw(Json.Serialize(ViewData["budgetByCust"]));
+
+                        // Extraire les IDs des clients comme labels
+                        var labels = Object.keys(budgetData).map(id => "Client " + id);
+
+                        // Extraire les montants comme valeurs du graphique
+                        var dataValues = Object.values(budgetData);
+
+                        // Couleurs dynamiques
+                        var backgroundColors = [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 205, 86)'
+                        ].slice(0, dataValues.length); // Limite au nombre d'entrées
+
+                        // Création du graphique
                         new Chart(document.querySelector('#doughnutChart'), {
                             type: 'doughnut',
                             data: {
-                                labels: [
-                                    'Red',
-                                    'Blue',
-                                    'Yellow'
-                                ],
+                                labels: labels,
                                 datasets: [{
-                                    label: 'My First Dataset',
-                                    data: [300, 50, 100],
-                                    backgroundColor: [
-                                        'rgb(255, 99, 132)',
-                                        'rgb(54, 162, 235)',
-                                        'rgb(255, 205, 86)'
-                                    ],
+                                    label: 'Top Clients par Budget',
+                                    data: dataValues,
+                                    backgroundColor: backgroundColors,
                                     hoverOffset: 4
                                 }]
                             }
                         });
                     });
                 </script>
-                <!-- End Doughnut CHart -->
+                <!-- End Doughnut Chart -->
 
             </div>
         </div>
     </div>
+
 </div>
 
 <div class="mt-3 mb-4">
@@ -167,6 +180,7 @@
                     <thead class="table-dark">
                     <tr>
                         <th>ID</th>
+                        <th>Client ID</th>
                         <th>Client</th>
                         <th>Montant (€)</th>
                         <th>Date</th>
@@ -177,6 +191,7 @@
                     {
                         <tr>
                             <td>@budget.IdBudgetModel</td>
+                            <td>@budget.IdCustomer</td>
                             <td>@budget.CustomerName</td>
                             <td>@budget.Montant.ToString("N2") €</td>
                             <td>@budget.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
