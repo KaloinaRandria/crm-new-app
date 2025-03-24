@@ -1,0 +1,323 @@
+﻿@{
+    var budgets = ViewData["budgets"] as List<BudgetModel>;
+    var tickets = ViewData["tickets"] as List<TicketModel>;
+    var leads = ViewData["leads"] as List<LeadModel>;
+
+    var totalBudget = ViewData["TotalBudget"];
+    var totalTicket = ViewData["TotalTicket"];
+    var totalLead = ViewData["TotalLead"];
+    
+}
+
+<h1 class="text-center mb-4">Tableau de Bord</h1>
+
+<div class="row">
+    <div class="col-lg-6 mt-3 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Ticket-Lead</h5>
+
+                <!-- Pie Chart -->
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        new Chart(document.querySelector('#pieChart'), {
+                            type: 'pie',
+                            data: {
+                                labels: [
+                                    'Lead',
+                                    'Ticket'
+                                ],
+                                datasets: [{
+                                    data: [@totalLead, @totalTicket],
+                                    backgroundColor: [
+                                        'rgb(255, 99, 132)',
+                                        'rgb(54, 162, 235)'
+                                    ],
+                                    hoverOffset: 4
+                                }]
+                            }
+                        });
+                    });
+                </script>
+                <canvas id="pieChart" style="max-height: 400px;"></canvas>
+                <!-- End Pie CHart -->
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mt-3 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Top Customer</h5>
+
+                <!-- Doughnut Chart -->
+                <canvas id="doughnutChart" style="max-height: 400px;"></canvas>
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        new Chart(document.querySelector('#doughnutChart'), {
+                            type: 'doughnut',
+                            data: {
+                                labels: [
+                                    'Red',
+                                    'Blue',
+                                    'Yellow'
+                                ],
+                                datasets: [{
+                                    label: 'My First Dataset',
+                                    data: [300, 50, 100],
+                                    backgroundColor: [
+                                        'rgb(255, 99, 132)',
+                                        'rgb(54, 162, 235)',
+                                        'rgb(255, 205, 86)'
+                                    ],
+                                    hoverOffset: 4
+                                }]
+                            }
+                        });
+                    });
+                </script>
+                <!-- End Doughnut CHart -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-3 mb-4">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Statistique</h5>
+
+            <!-- Bar Chart -->
+            <canvas id="barChart" style="max-height: 400px;"></canvas>
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart'), {
+                        type: 'bar',
+                        data: {
+                            labels: ['Budget', 'Depense', 'Ticket', 'Lead'],
+                            datasets: [{
+                                
+                                data: [@totalBudget, @totalTicket + @totalLead, @totalTicket, @totalLead],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)',
+                                    'rgba(255, 205, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 159, 64)',
+                                    'rgb(255, 205, 86)',
+                                    'rgb(75, 192, 192)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
+            <!-- End Bar CHart -->
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-md-4">
+            <div class="card shadow-lg p-3 mb-4 bg-white rounded">
+                <h3 class="card-title">Budget</h3>
+                <p class="card-text fs-4 font-weight-bold">@totalBudget €</p>
+                <button class="btn btn-primary w-100" onclick="toggleDetails('budgetTable')">Voir Détails</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-lg p-3 mb-4 bg-white rounded">
+                <h3 class="card-title">Ticket</h3>
+                <p class="card-text fs-4 font-weight-bold">@totalTicket €</p>
+                <button class="btn btn-primary w-100" onclick="toggleDetails('ticketTable')">Voir Détails</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-lg p-3 mb-4 bg-white rounded">
+                <h3 class="card-title">Lead</h3>
+                <p class="card-text fs-4 font-weight-bold">@totalLead €</p>
+                <button class="btn btn-primary w-100" onclick="toggleDetails('leadTable')">Voir Détails</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <!-- Budget Table -->
+        <div id="budgetTable" class="details-section" style="display: none;">
+            <h2>Liste des Budgets</h2>
+            @if (budgets != null && budgets.Count > 0)
+            {
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Client</th>
+                        <th>Montant (€)</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var budget in budgets)
+                    {
+                        <tr>
+                            <td>@budget.IdBudgetModel</td>
+                            <td>@budget.CustomerName</td>
+                            <td>@budget.Montant.ToString("N2") €</td>
+                            <td>@budget.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else { <p>Aucun budget trouvé.</p> }
+        </div>
+
+        <!-- Ticket Table -->
+        <div id="ticketTable" class="details-section" style="display: none;">
+            <h2>Liste des Tickets</h2>
+            @if (tickets != null && tickets.Count > 0)
+            {
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Subject</th>
+                        <th>Client</th>
+                        <th>Montant (€)</th>
+                        <th>Date</th>
+                        <th>Modifier</th>
+                        <th>Supprimer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var ticket in tickets)
+                    {
+                        <tr>
+                            <td>@ticket.IdTicket</td>
+                            <td>@ticket.Subject</td>
+                            <td>@ticket.CustomerName</td>
+                            <td>@ticket.MontantDepense.ToString("N2") €</td>
+                            <td>@ticket.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>
+                                <form action="/Ticket/Update" method="post">
+                                    <!-- Utilisation de d-flex pour aligner l'input et le bouton sur la même ligne -->
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" name="newMontant" class="form-control me-3" placeholder="Nouveau montant" style="width: 200px;" required />
+                                        <input type="hidden" name="idTicket" value="@ticket.IdTicket" />
+                                        <button type="submit" class="btn btn-warning btn-sm">Modifier</button>
+                                    </div>
+                                </form>
+
+                            </td>
+                            <td>
+                                <form id="deleteForm-@ticket.IdTicket" method="post" action="/Ticket/Delete">
+                                    <input type="hidden" name="idTicket" value="@ticket.IdTicket" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else { <p>Aucun ticket trouvé.</p> }
+        </div>
+
+        <!-- Lead Table -->
+        <div id="leadTable" class="details-section" style="display: none;">
+            <h2>Liste des Leads</h2>
+            @if (leads != null && leads.Count > 0)
+            {
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Lead Name</th>
+                        <th>Client</th>
+                        <th>Montant (€)</th>
+                        <th>Date</th>
+                        <th>Modifier</th>
+                        <th>Supprimer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var lead in leads)
+                    {
+                        <tr>
+                            <td>@lead.IdLead</td>
+                            <td>@lead.LeadName</td>
+                            <td>@lead.CustomerName</td>
+                            <td>@lead.MontantDepense.ToString("N2") €</td>
+                            <td>@lead.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>
+                                <form action="/Lead/UpdateLead" method="post">
+                                    <!-- Utilisation de d-flex pour aligner l'input et le bouton sur la même ligne -->
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" name="newMontant" class="form-control me-3" placeholder="Nouveau montant" style="width: 200px;" required />
+                                        <input type="hidden" name="idLead" value="@lead.IdLead" />
+                                        <button type="submit" class="btn btn-warning btn-sm">Modifier</button>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>
+                                <form id="deleteForm-@lead.IdLead" method="post" action="/Lead/DeleteLead">
+                                    <input type="hidden" name="idLead" value="@lead.IdLead" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else { <p>Aucun lead trouvé.</p> }
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleDetails(sectionId) {
+        document.querySelectorAll(".details-section").forEach(section => {
+            section.style.display = "none";
+        });
+        document.getElementById(sectionId).style.display = "block";
+    }
+
+    function confirmDelete(url) {
+        if (confirm("Voulez-vous vraiment supprimer cet élément ?")) {
+            window.location.href = url;
+        }
+    }
+</script>
+
+
+
+<!-- Vendor JS Files -->
+<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="/assets/vendor/echarts/echarts.min.js"></script>
+<script src="/assets/vendor/quill/quill.min.js"></script>
+<script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="/assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="/assets/js/main.js"></script>
