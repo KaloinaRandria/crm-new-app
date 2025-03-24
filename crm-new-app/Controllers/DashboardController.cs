@@ -42,6 +42,8 @@ public class DashboardController : Controller
                 var data = await responseBudget.Content.ReadAsStringAsync();
                 var budgets = new BudgetModel().GetAllBudgetModels(data);
                 double totalBudget = new BudgetModel().getTotalMontant(budgets);
+                var budgetByCust = new BudgetModel().budgetByIdCustomer(budgets);
+                ViewData["budgetByCust"] = budgetByCust;
                 ViewData["TotalBudget"] = totalBudget;
                 ViewData["budgets"] = budgets;
             }
