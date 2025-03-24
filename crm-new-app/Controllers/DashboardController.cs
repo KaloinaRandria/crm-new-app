@@ -192,6 +192,30 @@ public class DashboardController : Controller
         return RedirectToAction("Budget");
     }
     
+    private async Task<bool> IsSessionValid(string jsessionId)
+    {
+        if (string.IsNullOrEmpty(jsessionId))
+        {
+            return false;
+        }
+        try
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"http://localhost:8080/api/login/checkSession?sessionId={jsessionId}");
+            requestMessage.Headers.Add("Cookie", $"JSESSIONID={jsessionId}");
+            var response = await _httpClient.SendAsync(requestMessage);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return content.Equals("true", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la vérification de la session : {ex.Message}");
+        }
+
+        return false;
+    }
     
 
 
