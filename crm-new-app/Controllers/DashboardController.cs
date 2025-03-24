@@ -19,6 +19,13 @@ public class DashboardController : Controller
 
     public async Task<IActionResult> Budget()
     {
+        //Check Session
+        bool sessionStatus = await IsSessionValid(Request.Cookies["JSESSIONID"]);
+        if (sessionStatus == false)
+        {
+            return View("ErrorSession");
+        }
+        
         try
         {
             // Obtenir la date actuelle formatée
@@ -82,6 +89,13 @@ public class DashboardController : Controller
     [HttpPost("/Ticket/Delete")]
     public async Task<IActionResult> Delete(int idTicket)
     {
+        //Check Session
+        bool sessionStatus = await IsSessionValid(Request.Cookies["JSESSIONID"]);
+        if (sessionStatus == false)
+        {
+            return View("ErrorSession");
+        }
+
         try
         {
             // Appel à l'API Java pour supprimer le ticket
@@ -111,6 +125,13 @@ public class DashboardController : Controller
     [HttpPost("/Lead/DeleteLead")]
     public async Task<IActionResult> DeleteLead(int idLead)
     {
+        //Check Session
+        bool sessionStatus = await IsSessionValid(Request.Cookies["JSESSIONID"]);
+        if (sessionStatus == false)
+        {
+            return View("ErrorSession");
+        }
+
         try
         {  
             string apiDeleteLead = $"api/lead/delete?idLead={idLead}";
@@ -136,6 +157,13 @@ public class DashboardController : Controller
     [HttpPost("/Ticket/Update")]
     public async Task<IActionResult> Update(int idTicket, double newMontant)
     {
+        //Check Session
+        bool sessionStatus = await IsSessionValid(Request.Cookies["JSESSIONID"]);
+        if (sessionStatus == false)
+        {
+            return View("ErrorSession");
+        }
+
         try
         {
             // Construire l'URL de l'API Java
@@ -166,6 +194,13 @@ public class DashboardController : Controller
     [HttpPost("/Lead/UpdateLead")]
     public async Task<IActionResult> UpdateLead(int idLead, double newMontant)
     {
+        //Check Session
+        bool sessionStatus = await IsSessionValid(Request.Cookies["JSESSIONID"]);
+        if (sessionStatus == false)
+        {
+            return View("ErrorSession");
+        }
+
         try
         {
             // Construire l'URL de l'API Java
@@ -216,6 +251,7 @@ public class DashboardController : Controller
 
         return false;
     }
+    
     
 
 
