@@ -7,6 +7,7 @@
     var totalBudget = ViewData["TotalBudget"];
     var totalTicket = ViewData["TotalTicket"];
     var totalLead = ViewData["TotalLead"];
+    var somme =  (double)totalTicket + (double)totalLead;
     
 }
 
@@ -31,7 +32,7 @@
                                     'Ticket'
                                 ],
                                 datasets: [{
-                                    data: [@totalLead, @totalTicket],
+                                    data: [@totalLead.ToString().Replace("," , "."), @totalTicket.ToString().Replace("," , ".")],
                                     backgroundColor: [
                                         'rgb(255, 99, 132)',
                                         'rgb(54, 162, 235)'
@@ -112,16 +113,16 @@
                             labels: ['Budget', 'Depense', 'Ticket', 'Lead'],
                             datasets: [{
                                 
-                                data: [@totalBudget, @totalTicket + @totalLead, @totalTicket, @totalLead],
+                                data: [@totalBudget.ToString().Replace(",","."), @somme.ToString().Replace(",","."), @totalTicket.ToString().Replace(",","."), @totalLead.ToString().Replace(",",".")],
                                 backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)',
-                                    'rgba(255, 205, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)'
+                                    'rgba(167,255,148,0.5)',
+                                    'rgba(255,64,64,0.5)',
+                                    'rgba(255, 205, 86, 0.5)',
+                                    'rgba(75, 192, 192, 0.5)'
                                 ],
                                 borderColor: [
-                                    'rgb(255, 99, 132)',
-                                    'rgb(255, 159, 64)',
+                                    'rgb(167,255,148)',
+                                    'rgb(255,64,64)',
                                     'rgb(255, 205, 86)',
                                     'rgb(75, 192, 192)'
                                 ],
@@ -150,21 +151,21 @@
         <div class="col-md-4">
             <div class="card shadow-lg p-3 mb-4 bg-white rounded">
                 <h3 class="card-title">Budget</h3>
-                <p class="card-text fs-4 font-weight-bold">@totalBudget €</p>
+                <p class="card-text fs-4 font-weight-bold">@Convert.ToDouble(totalBudget).ToString("N2") €</p>
                 <button class="btn btn-primary w-100" onclick="toggleDetails('budgetTable')">Voir Détails</button>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card shadow-lg p-3 mb-4 bg-white rounded">
                 <h3 class="card-title">Ticket</h3>
-                <p class="card-text fs-4 font-weight-bold">@totalTicket €</p>
+                <p class="card-text fs-4 font-weight-bold">@Convert.ToDouble(totalTicket).ToString("N2") €</p>
                 <button class="btn btn-primary w-100" onclick="toggleDetails('ticketTable')">Voir Détails</button>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card shadow-lg p-3 mb-4 bg-white rounded">
                 <h3 class="card-title">Lead</h3>
-                <p class="card-text fs-4 font-weight-bold">@totalLead €</p>
+                <p class="card-text fs-4 font-weight-bold">@Convert.ToDouble(totalLead).ToString("N2") €</p>
                 <button class="btn btn-primary w-100" onclick="toggleDetails('leadTable')">Voir Détails</button>
             </div>
         </div>
