@@ -116,14 +116,14 @@
                                 data: [@totalBudget.ToString().Replace(",","."), @somme.ToString().Replace(",","."), @totalTicket.ToString().Replace(",","."), @totalLead.ToString().Replace(",",".")],
                                 backgroundColor: [
                                     'rgba(167,255,148,0.5)',
-                                    'rgba(255,64,64,0.5)',
                                     'rgba(255, 205, 86, 0.5)',
+                                    'rgba(255,64,64,0.5)',
                                     'rgba(75, 192, 192, 0.5)'
                                 ],
                                 borderColor: [
                                     'rgb(167,255,148)',
-                                    'rgb(255,64,64)',
                                     'rgb(255, 205, 86)',
+                                    'rgb(255,64,64)',
                                     'rgb(75, 192, 192)'
                                 ],
                                 borderWidth: 1
@@ -147,166 +147,182 @@
 
 
 <div class="container">
-    <div class="row text-center">
+    <div class="row text-center py-4">
         <div class="col-md-4">
-            <div class="card shadow-lg p-3 mb-4 bg-white rounded">
-                <h3 class="card-title">Budget</h3>
-                <p class="card-text fs-4 font-weight-bold">@Convert.ToDouble(totalBudget).ToString("N2") €</p>
-                <button class="btn btn-primary w-100" onclick="toggleDetails('budgetTable')">Voir Détails</button>
+            <div class="card shadow-lg p-4 mb-4 bg-white rounded-3">
+                <div class="card-body">
+                    <i class="bi bi-graph-up fs-1 text-primary"></i>
+                    <h3 class="card-title mt-3">Budget</h3>
+                    <p class="card-text fs-4 fw-bold text-success">@Convert.ToDouble(totalBudget).ToString("N2") €</p>
+                    <button class="btn btn-outline-primary w-100" onclick="toggleDetails('budgetTable')">
+                        Voir Détails
+                    </button>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card shadow-lg p-3 mb-4 bg-white rounded">
-                <h3 class="card-title">Ticket</h3>
-                <p class="card-text fs-4 font-weight-bold">@Convert.ToDouble(totalTicket).ToString("N2") €</p>
-                <button class="btn btn-primary w-100" onclick="toggleDetails('ticketTable')">Voir Détails</button>
+            <div class="card shadow-lg p-4 mb-4 bg-white rounded-3">
+                <div class="card-body">
+                    <i class="bi bi-receipt fs-1 text-warning"></i>
+                    <h3 class="card-title mt-3">Ticket</h3>
+                    <p class="card-text fs-4 fw-bold text-danger">@Convert.ToDouble(totalTicket).ToString("N2") €</p>
+                    <button class="btn btn-outline-primary w-100" onclick="toggleDetails('ticketTable')">
+                        Voir Détails
+                    </button>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card shadow-lg p-3 mb-4 bg-white rounded">
-                <h3 class="card-title">Lead</h3>
-                <p class="card-text fs-4 font-weight-bold">@Convert.ToDouble(totalLead).ToString("N2") €</p>
-                <button class="btn btn-primary w-100" onclick="toggleDetails('leadTable')">Voir Détails</button>
+            <div class="card shadow-lg p-4 mb-4 bg-white rounded-3">
+                <div class="card-body">
+                    <i class="bi bi-people fs-1 text-info"></i>
+                    <h3 class="card-title mt-3">Lead</h3>
+                    <p class="card-text fs-4 fw-bold text-primary">@Convert.ToDouble(totalLead).ToString("N2") €</p>
+                    <button class="btn btn-outline-primary w-100" onclick="toggleDetails('leadTable')">
+                        Voir Détails
+                    </button>
+                </div>
             </div>
-        </div>
-    </div>
-
-    <div class="mt-4">
-        <!-- Budget Table -->
-        <div id="budgetTable" class="details-section" style="display: none;">
-            <h2>Liste des Budgets</h2>
-            @if (budgets != null && budgets.Count > 0)
-            {
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Client ID</th>
-                        <th>Client</th>
-                        <th>Montant (€)</th>
-                        <th>Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var budget in budgets)
-                    {
-                        <tr>
-                            <td>@budget.IdBudgetModel</td>
-                            <td>@budget.IdCustomer</td>
-                            <td>@budget.CustomerName</td>
-                            <td>@budget.Montant.ToString("N2") €</td>
-                            <td>@budget.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            }
-            else { <p>Aucun budget trouvé.</p> }
-        </div>
-
-        <!-- Ticket Table -->
-        <div id="ticketTable" class="details-section" style="display: none;">
-            <h2>Liste des Tickets</h2>
-            @if (tickets != null && tickets.Count > 0)
-            {
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Subject</th>
-                        <th>Client</th>
-                        <th>Montant (€)</th>
-                        <th>Date</th>
-                        <th>Modifier</th>
-                        <th>Supprimer</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var ticket in tickets)
-                    {
-                        <tr>
-                            <td>@ticket.IdTicket</td>
-                            <td>@ticket.Subject</td>
-                            <td>@ticket.CustomerName</td>
-                            <td>@ticket.MontantDepense.ToString("N2") €</td>
-                            <td>@ticket.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
-                            <td>
-                                <form action="/Ticket/Update" method="post">
-                                    <!-- Utilisation de d-flex pour aligner l'input et le bouton sur la même ligne -->
-                                    <div class="d-flex align-items-center">
-                                        <input type="text" name="newMontant" class="form-control me-3" placeholder="Nouveau montant" style="width: 200px;" required />
-                                        <input type="hidden" name="idTicket" value="@ticket.IdTicket" />
-                                        <button type="submit" class="btn btn-warning btn-sm">Modifier</button>
-                                    </div>
-                                </form>
-
-                            </td>
-                            <td>
-                                <form id="deleteForm-@ticket.IdTicket" method="post" action="/Ticket/Delete">
-                                    <input type="hidden" name="idTicket" value="@ticket.IdTicket" />
-                                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                                </form>
-                            </td>
-
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            }
-            else { <p>Aucun ticket trouvé.</p> }
-        </div>
-
-        <!-- Lead Table -->
-        <div id="leadTable" class="details-section" style="display: none;">
-            <h2>Liste des Leads</h2>
-            @if (leads != null && leads.Count > 0)
-            {
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Lead Name</th>
-                        <th>Client</th>
-                        <th>Montant (€)</th>
-                        <th>Date</th>
-                        <th>Modifier</th>
-                        <th>Supprimer</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var lead in leads)
-                    {
-                        <tr>
-                            <td>@lead.IdLead</td>
-                            <td>@lead.LeadName</td>
-                            <td>@lead.CustomerName</td>
-                            <td>@lead.MontantDepense.ToString("N2") €</td>
-                            <td>@lead.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
-                            <td>
-                                <form action="/Lead/UpdateLead" method="post">
-                                    <!-- Utilisation de d-flex pour aligner l'input et le bouton sur la même ligne -->
-                                    <div class="d-flex align-items-center">
-                                        <input type="text" name="newMontant" class="form-control me-3" placeholder="Nouveau montant" style="width: 200px;" required />
-                                        <input type="hidden" name="idLead" value="@lead.IdLead" />
-                                        <button type="submit" class="btn btn-warning btn-sm">Modifier</button>
-                                    </div>
-                                </form>
-                            </td>
-                            <td>
-                                <form id="deleteForm-@lead.IdLead" method="post" action="/Lead/DeleteLead">
-                                    <input type="hidden" name="idLead" value="@lead.IdLead" />
-                                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            }
-            else { <p>Aucun lead trouvé.</p> }
         </div>
     </div>
 </div>
+
+
+    <div class="mt-4">
+        <!-- Budget Table -->
+        <div id="budgetTable" class="details-section card shadow p-4 mb-4" style="display: none;">
+            <h2 class="mb-3">Liste des Budgets</h2>
+            @if (budgets != null && budgets.Count > 0)
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Client ID</th>
+                            <th>Client</th>
+                            <th>Montant (€)</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var budget in budgets)
+                        {
+                            <tr>
+                                <td>@budget.IdBudgetModel</td>
+                                <td>@budget.IdCustomer</td>
+                                <td>@budget.CustomerName</td>
+                                <td class="text-end">@budget.Montant.ToString("N2") €</td>
+                                <td>@budget.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else { <p class="text-muted">Aucun budget trouvé.</p> }
+        </div>
+
+        <!-- Ticket Table -->
+        <div id="ticketTable" class="details-section card shadow p-4 mb-4" style="display: none;">
+            <h2 class="mb-3">Liste des Tickets</h2>
+            @if (tickets != null && tickets.Count > 0)
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Subject</th>
+                            <th>Client</th>
+                            <th>Montant (€)</th>
+                            <th>Date</th>
+                            <th>Modifier</th>
+                            <th>Supprimer</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var ticket in tickets)
+                        {
+                            <tr>
+                                <td>@ticket.IdTicket</td>
+                                <td>@ticket.Subject</td>
+                                <td>@ticket.CustomerName</td>
+                                <td class="text-end">@ticket.MontantDepense.ToString("N2") €</td>
+                                <td>@ticket.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>
+                                    <form action="/Ticket/Update" method="post" class="d-flex gap-2">
+                                        <input type="text" name="newMontant" class="form-control" placeholder="Nouveau montant" required />
+                                        <input type="hidden" name="idTicket" value="@ticket.IdTicket" />
+                                        <button type="submit" class="btn btn-warning btn-sm">Modifier</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" action="/Ticket/Delete">
+                                        <input type="hidden" name="idTicket" value="@ticket.IdTicket" />
+                                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else { <p class="text-muted">Aucun ticket trouvé.</p> }
+        </div>
+
+        <!-- Lead Table -->
+        <div id="leadTable" class="details-section card shadow p-4 mb-4" style="display: none;">
+            <h2 class="mb-3">Liste des Leads</h2>
+            @if (leads != null && leads.Count > 0)
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Lead Name</th>
+                            <th>Client</th>
+                            <th>Montant (€)</th>
+                            <th>Date</th>
+                            <th>Modifier</th>
+                            <th>Supprimer</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var lead in leads)
+                        {
+                            <tr>
+                                <td>@lead.IdLead</td>
+                                <td>@lead.LeadName</td>
+                                <td>@lead.CustomerName</td>
+                                <td class="text-end">@lead.MontantDepense.ToString("N2") €</td>
+                                <td>@lead.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>
+                                    <form action="/Lead/UpdateLead" method="post" class="d-flex gap-2">
+                                        <input type="text" name="newMontant" class="form-control" placeholder="Nouveau montant" required />
+                                        <input type="hidden" name="idLead" value="@lead.IdLead" />
+                                        <button type="submit" class="btn btn-warning btn-sm">Modifier</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" action="/Lead/DeleteLead">
+                                        <input type="hidden" name="idLead" value="@lead.IdLead" />
+                                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else { <p class="text-muted">Aucun lead trouvé.</p> }
+        </div>
+    </div>
+
+
 
 <script>
     function toggleDetails(sectionId) {
