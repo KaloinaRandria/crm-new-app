@@ -157,7 +157,7 @@ public class DashboardController : Controller
     }
 
     [HttpPost("/Ticket/Update")]
-    public async Task<IActionResult> Update(int idTicket, double newMontant)
+    public async Task<IActionResult> Update(int idTicket, string newMontant)
     {
         //Check Session
         bool sessionStatus = await IsSessionValid(Request.Cookies["JSESSIONID"]);
@@ -194,7 +194,7 @@ public class DashboardController : Controller
     
     
     [HttpPost("/Lead/UpdateLead")]
-    public async Task<IActionResult> UpdateLead(int idLead, double newMontant)
+    public async Task<IActionResult> UpdateLead(int idLead, string newMontant)
     {
         //Check Session
         bool sessionStatus = await IsSessionValid(Request.Cookies["JSESSIONID"]);
