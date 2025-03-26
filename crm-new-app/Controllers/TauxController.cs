@@ -28,7 +28,7 @@ public class TauxController : Controller
     }
 
     [HttpPost("/Taux/UpdateTaux")]
-    public async Task<IActionResult> UpdateTaux(double newTaux)
+    public async Task<IActionResult> UpdateTaux(string newTaux)
     {
         //Check Session
         bool sessionStatus = await IsSessionValid(Request.Cookies["JSESSIONID"]);
